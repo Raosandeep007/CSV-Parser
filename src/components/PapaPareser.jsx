@@ -5,11 +5,6 @@ export const PapaPareser = () => {
   const [file, setFile] = useState();
 
   const handleFileRead = () => {
-    // Papa.parse(file, {
-    //   complete: function (results) {
-    //     console.log("Finished:", results.data);
-    //   },
-    // });
     Papa.parse(file, {
       header: true,
       skipEmptyLines: true,
