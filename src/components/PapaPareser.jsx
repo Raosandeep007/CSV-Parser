@@ -3,13 +3,20 @@ import Papa from "papaparse";
 
 export const PapaPareser = () => {
   const [file, setFile] = useState();
+  const [fileData, setFileData] = useState([]);
+  const [header, setHeader] = useState([]);
 
   const handleFileRead = () => {
     Papa.parse(file, {
-      header: true,
-      skipEmptyLines: true,
       complete: function (results) {
-        console.log("Finished:", results.data);
+        setFileData(results.data);
+        const title = Object.entries(results.data?.[0]);
+        setHeader(title.flat());
+        const values = results.data.map((data) => {
+          const row = Object.entries(data);
+          return row.flat();
+        });
+        setFileData(values);
       },
     });
   };
@@ -22,6 +29,23 @@ export const PapaPareser = () => {
     <div>
       <input type="file" onChange={handleFile} />
       <button onClick={handleFileRead}>read</button>
+
+      <table>
+        <thead>
+          <th>
+            {header.map((ele) => {
+              return <td>{ele}</td>;
+            })}
+          </th>
+        </thead>
+        <tbody>
+          <td>
+            {fileData.map((ele) => {
+              return <tr>{ele}</tr>;
+            })}
+          </td>
+        </tbody>
+      </table>
     </div>
   );
 };
