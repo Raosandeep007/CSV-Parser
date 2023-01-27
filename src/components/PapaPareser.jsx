@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Papa from "papaparse";
+import { KeyGenerator } from "../utils/KeyGenerator.ts";
 
 export const PapaPareser = () => {
   const [file, setFile] = useState();
@@ -25,6 +26,9 @@ export const PapaPareser = () => {
     const f = e.target.files[0];
     setFile(f);
   };
+
+  const keys = KeyGenerator();
+
   return (
     <div>
       <input type="file" onChange={handleFile} />
@@ -34,14 +38,16 @@ export const PapaPareser = () => {
         <thead>
           <th>
             {header.map((ele) => {
-              return <td>{ele}</td>;
+              console.log("keys:", keys.next());
+              return <td key={keys}>{ele}</td>;
             })}
           </th>
         </thead>
         <tbody>
           <td>
             {fileData.map((ele) => {
-              return <tr>{ele}</tr>;
+              console.log("keys:", keys.next());
+              return <tr key={keys}>{ele}</tr>;
             })}
           </td>
         </tbody>
